@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">    
+    <title>Document</title>
+    <style>
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            width: 1000px;
+            border-radius: 5px;
+        }
+
+        button{
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h1{
+            text-align:center ;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        th {
+            text-align: center;
+            font-size: 20px;
+        }
+        td {
+            font-size: 20px
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat App</h1>
+    <table class="table">
+        <tbody id="tabledata">
+        </tbody>
+    </table>
+    <footer>
+        <form class="form-inline">
+            <div class="form-group mr-2">
+                <input id="idk2" type="text" placeholder="Type here......">
+            </div>
+            <button id="idk3" class="btn btn-primary" onclick="send(event)">Send</button>
+        </form>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="../config.js"></script>
+    <script src="chat.js"></script>    
+</body>
+</html>

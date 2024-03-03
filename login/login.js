@@ -1,4 +1,4 @@
-async function onlogin(e){
+async function onLogin(e){
     try{
         e.preventDefault();
         var email_=document.getElementById('idx1').value;
@@ -12,7 +12,12 @@ async function onlogin(e){
             const res= await axios.post(`${API_ENDPOINT}admin/login-user`,myObj)
                 alert(res.data.message)
                 localStorage.setItem('token', res.data.token)
-                // window.location.href="../ExpenseTracker/expense.html"               
+                const token=localStorage.getItem('token');
+                await axios.post(`${API_ENDPOINT}chat/insert-message`,{
+                    chat: 'joined',
+                    typeofrequest: '1'
+                },{headers:{"authorization": token}})
+                window.location.href="../chat/chat.html"               
         }
         else{
             alert('Please fill the empty fields!') 
