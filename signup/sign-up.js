@@ -17,6 +17,7 @@ async function onSignUp(e){
             if(result.data==""){
                await axios.post(`${API_ENDPOINT}admin/insert-user`,myObj)
                alert("Signed up successfully")
+               window.location.href="../login/login.html"
             }
             else{
                 alert('User already exists')
