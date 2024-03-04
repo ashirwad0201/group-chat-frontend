@@ -1,6 +1,10 @@
 const tabledata=document.getElementById('tabledata');
 const token=localStorage.getItem('token');
 
+setInterval(() =>{
+    getChats();
+}, 5000)
+
 window.addEventListener('DOMContentLoaded',()=>{
     getChats();
 })

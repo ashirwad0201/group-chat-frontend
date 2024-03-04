@@ -16,6 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-top: 20px;
         }
 
         input[type="text"] {
@@ -49,11 +50,14 @@
         td {
             font-size: 20px
         }
+        table {
+            margin-bottom: 20px; 
+        }
     </style>
 </head>
 <body>
     <h1>Chat App</h1>
-    <table class="table">
+    <table id='chatTable' class="table">
         <tbody id="tabledata">
         </tbody>
     </table>
