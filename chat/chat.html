@@ -16,7 +16,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 20px;
         }
 
         input[type="text"] {
@@ -50,25 +49,28 @@
         td {
             font-size: 20px
         }
-        table {
-            margin-bottom: 20px; 
+        .container-flex {
+            padding-bottom: 60px;
         }
     </style>
 </head>
 <body>
     <h1>Chat App</h1>
-    <table id='chatTable' class="table">
-        <tbody id="tabledata">
-        </tbody>
-    </table>
-    <footer>
-        <form class="form-inline">
-            <div class="form-group mr-2">
-                <input id="idk2" type="text" placeholder="Type here......">
-            </div>
-            <button id="idk3" class="btn btn-primary" onclick="send(event)">Send</button>
-        </form>
-    </footer>
+    <div class="container-flex">
+        <table id='chatTable' class="table">
+            <tbody id="tabledata">
+            </tbody>
+        </table>
+        <footer>
+            <form class="form-inline">
+                <div class="form-group mr-2">
+                    <input id="idk2" type="text" placeholder="Type here......">
+                </div>
+                <button id="idk3" class="btn btn-primary" onclick="send(event)">Send</button>
+            </form>
+        </footer>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="../config.js"></script>
     <script src="chat.js"></script>    

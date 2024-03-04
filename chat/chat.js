@@ -1,9 +1,9 @@
 const tabledata=document.getElementById('tabledata');
 const token=localStorage.getItem('token');
 
-setInterval(() =>{
-    getChats();
-}, 5000)
+// setInterval(() =>{
+//     getChats();
+// }, 5000)
 
 window.addEventListener('DOMContentLoaded',()=>{
     getChats();
@@ -11,10 +11,18 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 async function getChats(){
     tabledata.innerHTML='';
-    const response=await axios.get(`${API_ENDPOINT}chat/get-messages`,{headers:{"authorization": token}});
+    const localmessages=JSON.parse(localStorage.getItem('messages'));
+    var lastmessageid;
+    if(localmessages.length>0){
+        lastmessageid=localmessages[localmessages.length-1].id;
+    }
+    console.log(lastmessageid)
+    const response=await axios.get(`${API_ENDPOINT}chat/get-messages`,{params: {lastmessageid : lastmessageid},headers:{"authorization": token}});
     console.log(response)
-    for(var i=0;i<response.data.messages.length;i++){
-        showChats(response.data.messages[i]);
+    const messages=[...localmessages,...response.data.messages]
+    localStorage.setItem('messages',JSON.stringify(messages))
+    for(var i=0;i<messages.length;i++){
+        showChats(messages[i]);
     }
 }
 
