@@ -6,6 +6,22 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">    
     <title>Document</title>
     <style>
+    .form-container {
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.9);
+        width: 300px; 
+        position: absolute;
+        top: 20%;
+        right: 50px; 
+        transform: translate(0, -50%);
+    }
+
+    .btn .form-group{
+        font-size: 14px;
+        padding: 8px 16px;
+    }
         footer {
             background-color: #333;
             color: white;
@@ -20,7 +36,7 @@
 
         input[type="text"] {
             padding: 5px;
-            width: 1000px;
+            width: 100%;
             border-radius: 5px;
         }
 
@@ -52,10 +68,20 @@
         .container-flex {
             padding-bottom: 60px;
         }
+        .group{
+            display:flex;
+        }
     </style>
 </head>
 <body>
-    <h1>Chat App</h1>
+    <div class="row">
+        <div class="col">
+            <h1 id="grpname" class="heading text-center"></h1>
+        </div>
+        <div class="col-auto">
+            <button id="invite" class="btn btn-primary" data-toggle="modal" data-target="#inviteModal">Invite Members</button>
+        </div>
+    </div>
     <div class="container-flex">
         <table id='chatTable' class="table">
             <tbody id="tabledata">
@@ -70,9 +96,32 @@
             </form>
         </footer>
     </div>
-
+    <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inviteModalLabel">Invite Members</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="inviteForm">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter email">
+                        </div>
+                        <button type="button" class="btn btn-primary " data-dismiss="modal" onclick="sendInvite(event)">Send Invite</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="../config.js"></script>
     <script src="chat.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

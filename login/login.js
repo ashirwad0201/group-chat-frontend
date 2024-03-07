@@ -13,11 +13,11 @@ async function onLogin(e){
                 alert(res.data.message)
                 localStorage.setItem('token', res.data.token)
                 const token=localStorage.getItem('token');
-                await axios.post(`${API_ENDPOINT}chat/insert-message`,{
-                    chat: 'joined',
-                    typeofrequest: '1'
-                },{headers:{"authorization": token}})
-                window.location.href="../chat/chat.html"               
+                // await axios.post(`${API_ENDPOINT}chat/insert-message`,{
+                //     chat: 'joined',
+                //     typeofrequest: '1'
+                // },{headers:{"authorization": token}})
+                window.location.href="../groups/groups.html"
         }
         else{
             alert('Please fill the empty fields!') 

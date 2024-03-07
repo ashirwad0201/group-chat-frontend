@@ -1,6 +1,9 @@
 const tabledata=document.getElementById('tabledata');
 const token=localStorage.getItem('token');
+const grouptoken=localStorage.getItem('grouptoken')
+const groupname=localStorage.getItem('groupname')
 
+document.getElementById('grpname').textContent=groupname
 // setInterval(() =>{
 //     getChats();
 // }, 5000)
@@ -11,16 +14,23 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 async function getChats(){
     tabledata.innerHTML='';
-    const localmessages=JSON.parse(localStorage.getItem('messages'));
+    const localmessages=JSON.parse(localStorage.getItem(groupname));
+    console.log(localmessages)
     var lastmessageid;
-    if(localmessages.length>0){
+    if(localmessages && localmessages.length>0){
         lastmessageid=localmessages[localmessages.length-1].id;
     }
     console.log(lastmessageid)
-    const response=await axios.get(`${API_ENDPOINT}chat/get-messages`,{params: {lastmessageid : lastmessageid},headers:{"authorization": token}});
+    const response=await axios.get(`${API_ENDPOINT}chat/get-messages`,{params: {lastmessageid : lastmessageid},headers:{"authorization": token,"groupauthorize": grouptoken}});
     console.log(response)
-    const messages=[...localmessages,...response.data.messages]
-    localStorage.setItem('messages',JSON.stringify(messages))
+    let messages=[];
+    if(localmessages){
+        messages=[...localmessages,...response.data.messages]
+    }
+    else{
+        messages=response.data.messages;
+    }
+    localStorage.setItem(groupname,JSON.stringify(messages))
     for(var i=0;i<messages.length;i++){
         showChats(messages[i]);
     }
@@ -43,14 +53,20 @@ function showChats(myObj){
 
 async function send(e){
  try{
+    e.preventDefault();
     const chat_=document.getElementById('idk2').value;
     await axios.post(`${API_ENDPOINT}chat/insert-message`,{
         chat: chat_,
         typeofrequest: '2'
-    },{headers:{"authorization": token}})
+    },{headers:{"authorization": token,"groupauthorize": grouptoken}})
     getChats();
  }
  catch(err){
     console.log('Something went wrong ', err);
  }
+}
+
+function sendInvite(e){
+    e.preventDefault();
+    //await axios.post
 }
