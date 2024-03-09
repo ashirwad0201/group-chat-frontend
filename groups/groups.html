@@ -71,7 +71,13 @@
         .group{
             display:flex;
         }
+        .group-name {
+            text-align: left;
+            margin-bottom: 20px;
+        }  
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>    
 </head>
 <body>
     <h1>Chat App</h1>
@@ -85,6 +91,27 @@
         </form>
     </div>  
     <div id="groupCards" class="group container-flex">
+    </div>
+    <div class="modal fade" id="groupInvitationModal" tabindex="-1" role="dialog" aria-labelledby="groupInvitationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="group-name">
+                        <h2 id="groupNameSpan"></h2>
+                    </div>                    
+                    <button type="button" class="close" onclick="canceljoin(event)" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>You are invited to join this group</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="beAmember(event)" data-dismiss="modal">Join</button>
+                    <button type="button" class="btn btn-secondary" onclick="canceljoin(event)" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
