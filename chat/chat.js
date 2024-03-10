@@ -4,6 +4,7 @@ const grouptoken=localStorage.getItem('grouptoken')
 const groupname=localStorage.getItem('groupname')
 const invitebutton=document.getElementById('invite');
 const groupheading=document.getElementById('grpname')
+let isAdmin=false;
 
 groupheading.textContent=groupname
 // setInterval(() =>{
@@ -15,6 +16,7 @@ window.addEventListener('DOMContentLoaded',async ()=>{
     if(response.data.isAdmin){
         invitebutton.style.display='block';
         groupheading.classList.add('member-left-margin')
+        isAdmin=true;
     }
     getChats();
 })
@@ -47,7 +49,7 @@ function showChats(myObj){
     var history=''
     var newRow=document.createElement("tr");
     var newCell=document.createElement("td");
-    if(myObj.typeofrequest=='1'){
+    if(myObj.typeofrequest=='1' || myObj.typeofrequest=='3'){
         history=myObj.name+' '+myObj.chat;
         newCell.className="td-center"
     }
@@ -99,4 +101,111 @@ async function sendInvite(e){
     catch(err){
         console.log('Something went wrong ', err);
     } 
+}
+
+document.getElementById('showMembersButton').addEventListener('click', function(e) {
+    e.preventDefault();
+    showGroupMembers();
+});
+
+async function showGroupMembers() {
+    try {
+        const response = await axios.get(`${API_ENDPOINT}group/members`,{headers:{"authorization": token,"groupauthorize": grouptoken}});
+        console.log(response)
+        let membersList = document.getElementById('membersList');
+
+        membersList.innerHTML = '';
+
+        response.data.members.forEach(member => {
+            let listItem = document.createElement('div');
+            listItem.classList.add('member-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+            let memberInfo = document.createElement('span');
+            memberInfo.textContent = member.name + ' ' + member.phone + (member.isAdmin ? ' (Admin)' : '');
+            listItem.appendChild(memberInfo);
+
+            if(isAdmin){
+                let buttonsContainer = document.createElement('div');
+                buttonsContainer.classList.add('d-inline-flex');
+                if(!member.isAdmin){
+                    let makeAdminButton = document.createElement('button');
+                    makeAdminButton.textContent = 'Make Admin';
+                    makeAdminButton.classList.add('btn-sm', 'btn-info', 'make-admin-button','mr-10');
+                    makeAdminButton.addEventListener('click', ()=>{
+                        makeAdmin(member.id,member.name);
+                    });
+                    buttonsContainer.appendChild(makeAdminButton);                    
+                }
+                if (!member.isCurrUser) {
+                    let removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.classList.add('btn-sm', 'btn-primary', 'remove-button');
+                    removeButton.addEventListener('click', ()=>{
+                        removeMember(member.id,member.name)
+                    });
+                    buttonsContainer.appendChild(removeButton);
+                }
+                listItem.appendChild(buttonsContainer);
+            }
+
+            membersList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error('Error fetching group members:', error);
+    }
+}
+
+async function removeMember(userid,name){
+    try{
+        let myObj={
+            id: userid,
+            name: name
+        }
+        console.log(myObj)
+        if(confirm(`Are you sure to remove ${name}?`)){
+            const response=await axios.post(`${API_ENDPOINT}group/removemember`,myObj,{headers:{"authorization": token,"groupauthorize": grouptoken}})
+            showGroupMembers();
+            getChats();
+            alert(response.data.message)
+        }
+    }
+    catch(err){
+        console.log('Something went wrong ', err);
+    }     
+}
+
+async function makeAdmin(userid,name){
+    try{
+        let myObj={
+            id: userid,
+            name: name
+        }
+        // console.log(myObj)
+        if(confirm(`Are you sure to make ${name} admin?`)){
+            const response=await axios.post(`${API_ENDPOINT}group/makeadmin`,myObj,{headers:{"authorization": token,"groupauthorize": grouptoken}})
+            showGroupMembers();
+            alert(response.data.message)
+        }
+    }
+    catch(err){
+        console.log('Something went wrong ', err);
+    }     
+}
+
+document.getElementById('exitGroupLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    exitGroup();
+});
+
+async function exitGroup() {
+    try {
+        if(confirm('Are you sure to leave the group?')){
+            const response = await axios.post(`${API_ENDPOINT}group/exit`, {}, { headers: { "authorization": token, "groupauthorize": grouptoken }}); 
+            alert(response.data.message);
+            window.location.href='../groups/groups.html'            
+        }
+
+    } catch (error) {
+        console.error('Error exiting group:', error);
+    }
 }
